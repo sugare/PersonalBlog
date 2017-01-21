@@ -131,7 +131,6 @@ a:active {color: #FFD133;}
 }
 
 /* Menu */
-
 #menu
 {
 	background: #000000 url(/static/images/menubg.gif) no-repeat;
@@ -177,7 +176,6 @@ a:active {color: #FFD133;}
 }
 
 /* Content */
-
 #content {
 	width: 950px;
 	background: #000000 url(/static/images/contentbg.gif) repeat-y;
