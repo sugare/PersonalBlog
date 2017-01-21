@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+    {% block menu %}
+        <li><a href="/">Home</a></li>
+        <li><a href="/archives">archives</a></li>
+        <li><a href="/about">About Us</a></li>
+    {% end %}
+
+    {% block leftside %}
+        <ul>
+            <li id="categories">
+              <h2></h2>
+            </li>
+        </ul>
+    {% end %}
+
+    {% block content %}
+    <form action='/edit' method='post'>
+      <div id="post-1" class="post">
+              <h2 style="float: left;"><label>标题:</label></h2>&nbsp;
+              <input size="90" type='text' name='title' placeholder='请输入标题' style="color:#000000"/>
+      </div>
+
+      <div id="post-2" class="post">
+              <h2 style="float: left;"><label>日期:</label></h2>&nbsp;
+              <input size="90" type='text' name='date' placeholder='请输入日期' style="color:#000000"/>
+      </div>
+
+      <div id="post-3" class="post">
+          <h2 style="float: left;"><label>博文:</label></h2>&nbsp;
+          <textarea rows="20" cols="92" style="color:#000000" name="blog"></textarea>
+          <br/>
+          <input type="submit" value="提交" style="background: #000; color: #FFD133;"/>
+      </div>
+    </form>
+    {% end %}

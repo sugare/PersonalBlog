@@ -26,6 +26,7 @@ class Application(tornado.web.Application):
             (r'/archives/?(.*)', ArchivesHandler),
             #(r'/archives?', ArchivesHandler),
             (r'/about?', AboutHandler),
+            (r'/edit?', EditHandler),
         ]
         settings = dict(
             static_path=os.path.join(os.path.dirname(__file__), 'static'),
@@ -51,6 +52,13 @@ class ArchivesHandler(BaseHandler):
         else:
             self.render('archives.html')
 
+class EditHandler(BaseHandler):
+    def get(self):
+        self.render('edit.html')
+    def post(self, *args, **kwargs):
+        print self.get_argument('title')
+        print self.get_argument('date')
+        print self.get_argument('blog')
 
 class AboutHandler(BaseHandler):
     def get(self):
@@ -61,7 +69,7 @@ def main():
     app = Application()
     # http_server = tornado.httpserver.HTTPServer(app)
     # http_server.listen(8888)
-    app.listen(8000)
+    app.listen(8888)
     tornado.ioloop.IOLoop.current().start()
 
 
