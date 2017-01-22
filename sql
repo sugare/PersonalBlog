@@ -6,16 +6,26 @@
 
 CREATE DATABASE blog DEFAULT CHARACTER SET utf8;
 USE blog;
-CREATE TABLE record(
+CREATE TABLE blog(
+`id` int not null primary key,
 `title` varchar(100) not null,
-`date` DATE not null primary key,
+`date` DATE not null,
 `essay` MEDIUMTEXT,
 `view` int not null default 0
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+CREATE TABLE test(
+`id` int not null primary key,
+`title` char(100) not null,
+`date` DATE not null,
+`essay` char(100),
+`view` int not null default 0
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+insert into test(id,title,date, essay, view) values(1, '集群的相关内容','2017-01-01','1234566', '10');
 
-insert into record(title,date, essay, view) values('集群的相关内容','2017-01-01',
+
+
 <h3>一、集群的定义</h3>
 
 <p style="letter-spacing:2px;font-family:'楷体';">集群是一种并行或分布式系统，该系统包括一个互连的整体计算机集合作为一种单一、统一的计算机资源使用。通过集群技术，我们可以在付出低成本的情况下获得在性能、可靠性、灵活性方面更高的利益。

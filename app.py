@@ -12,16 +12,21 @@ import os
 import tornado.httpserver
 import MySQLdb
 import markdown2
-
+import fetchcatalog
 
 db = MySQLdb.connect('localhost','root','123456','blog', charset="utf8")
 
 
 cursor = db.cursor()
-sql = """select essay from record where date='2017-01-04'"""
+sql = """select * from blog;"""
 cursor.execute(sql)
 results = cursor.fetchall()
-
+#print results
+catalog = fetchcatalog.htmlparser(results[0][3])
+c = {}
+for i in results:
+    c[i[0]] = (i[1],i[2])
+print c
 #from tornado.options import define, options
 #define("port", default=8888, help="run on the given port", type=int)
 #define("redis_host", default="127.0.0.1", help="redis host")
@@ -58,9 +63,9 @@ class HomeHandler(BaseHandler):
 class ArchivesHandler(BaseHandler):
     def get(self, page=''):
         if page:
-            self.render('page.html', page=page,essay=results[0][0])
+            self.render('page.html', title=results[0][1],date = results[0][2], essay=results[0][3], view=results[0][4],catalog=catalog)
         else:
-            self.render('archives.html')
+            self.render('archives.html',abc=c)
 
 class EditHandler(BaseHandler):
     def get(self):
