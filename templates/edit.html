@@ -14,20 +14,56 @@
     {% end %}
 
     {% block content %}
+<style>
+/*
+    作用描述：给INPUT添加美化的样式，兼容IE8,IE9,FF,chrome,safari等
+    效果描述；
+        - 1.边框带圆角
+        - 2.指定INPUT高度
+        - 3.INPUT文本上下居中，添加左边距
+        - 4.背景色为白色
+        - 5.当INPUT获得光标的时候，边框高亮显示天蓝色。
+        - 6.IE7下没有高亮效果
+        - 7.chrome下聚焦后边框是2px。
+*/
+.cssInput{
+    border:1px solid #7A6F6F;
+    border:1px solid #7A6F6F \9;/*IE*/
+    width:200px;
+    height:20px;/*非IE高度*/
+    height:20px \9;/*IE高度*/
+    margin: 8px auto;
+    padding-left:4px; /*all*/
+    line-height:20px \9;/*IE*/
+    -moz-border-radius:3px;/*Firefox*/
+    -webkit-border-radius:3px;/*Safari和Chrome*/
+    border-radius:3px;/*IE9+*/
+    background-color: #618055;
+    outline:none;
+}
+.cssInput:focus{/*IE8+*/
+    border-color:#78BAED;
+    [;outline:1px solid #78BAED;/*chrome*/
+}
+
+</style>
+
     <form action='/edit' method='post'>
       <div id="post-1" class="post">
               <h2 style="float: left;"><label>标题:</label></h2>&nbsp;
-              <input size="90" type='text' name='title' placeholder='请输入标题' style="color:#000000"/>
+              <input class="cssInput" type='text' name='title' placeholder='请输入标题' style="color:#000000;"/>
+
       </div>
 
       <div id="post-2" class="post">
               <h2 style="float: left;"><label>日期:</label></h2>&nbsp;
-              <input size="90" type='text' name='date' placeholder='请输入日期' style="color:#000000"/>
+              <input class="cssInput" type='text' name='date' placeholder='请输入日期' style="color:#000000"/>
+
       </div>
 
       <div id="post-3" class="post">
-          <h2 style="float: left;"><label>博文:</label></h2>&nbsp;
-          <textarea rows="20" cols="92" style="color:#000000" name="blog"></textarea>
+          <h2 style="float: left;"><label>博文:</label></h2>
+          <textarea style="-webkit-border-radius: 3px; background-color: #7A6F6F; outline: none; margin-left: 6px;" placeholder='请输入文章' name="essay"></textarea>
           <br/>
           <input type="submit" value="提交" style="background: #000; color: #FFD133;"/>
       </div>

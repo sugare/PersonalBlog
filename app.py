@@ -10,7 +10,17 @@ import tornado.web
 import tornado.ioloop
 import os
 import tornado.httpserver
+import MySQLdb
+import markdown2
 
+
+db = MySQLdb.connect('localhost','root','123456','blog', charset="utf8")
+
+
+cursor = db.cursor()
+sql = """select essay from record where date='2017-01-04'"""
+cursor.execute(sql)
+results = cursor.fetchall()
 
 #from tornado.options import define, options
 #define("port", default=8888, help="run on the given port", type=int)
@@ -25,8 +35,8 @@ class Application(tornado.web.Application):
             #(r'/archives', ArchivesHandler),
             (r'/archives/?(.*)', ArchivesHandler),
             #(r'/archives?', ArchivesHandler),
-            (r'/about?', AboutHandler),
-            (r'/edit?', EditHandler),
+            (r'/about/?', AboutHandler),
+            (r'/edit/?', EditHandler),
         ]
         settings = dict(
             static_path=os.path.join(os.path.dirname(__file__), 'static'),
@@ -48,7 +58,7 @@ class HomeHandler(BaseHandler):
 class ArchivesHandler(BaseHandler):
     def get(self, page=''):
         if page:
-            self.render('page.html', page=page)
+            self.render('page.html', page=page,essay=results[0][0])
         else:
             self.render('archives.html')
 
@@ -56,9 +66,10 @@ class EditHandler(BaseHandler):
     def get(self):
         self.render('edit.html')
     def post(self, *args, **kwargs):
-        print self.get_argument('title')
-        print self.get_argument('date')
-        print self.get_argument('blog')
+        Title =  self.get_argument('title')
+        Date =  self.get_argument('date')
+        Essay =   self.get_argument('essay')
+        print Title, Date, Essay
 
 class AboutHandler(BaseHandler):
     def get(self):

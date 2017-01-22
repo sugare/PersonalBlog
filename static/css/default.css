@@ -50,16 +50,19 @@ body {
 	background: #000000 url(/static/images/bodybg.gif) repeat-x;
 }
 
-body, input, textarea, select {
+body, select {
 	font: normal .7em Arial, Verdana, Helvetica, sans-serif;
 	color: #FFFFFF;
 	margin: 0px auto;
 }
 
+input, textarea{
+	margin: 4px auto;
+}
+
 h1, h2, h3, h4, h5, h6 {
 	margin-bottom: 1em;
 	color: #FFD133;
-	text-transform: lowercase;
 }
 
 p, blockquote, ul, ol, form {
