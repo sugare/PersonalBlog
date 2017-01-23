@@ -43,8 +43,10 @@ html = """
 只求个大概了解可以去我的博客http://go2live.cn/archives/177159.html</p>
 
 """
-sql = """insert into blog(id,title,date, essay, view) values(2, '集群的相关内容','2017-01-02','%s', '11');;""" %MySQLdb.escape_string(html)
-cursor.execute(sql)
-db.commit()
+#sql = """insert into blog(title,date, essay) values('集群的相关内容','2017-01-02','%s');;""" %MySQLdb.escape_string(html)
+print (MySQLdb.escape_string(html))
+print type(MySQLdb.escape_string(html))
+#cursor.execute(sql)
+#db.commit()
 
-db.close()
+#db.close()

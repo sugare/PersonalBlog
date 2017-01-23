@@ -2,7 +2,7 @@
     {% block menu %}
         <li><a href="/">Home</a></li>
         <li><a class="current" href="/archives">archives</a></li>
-        <li><a href="/about">About Us</a></li>
+        <li><a href="/about">About</a></li>
     {% end %}
 
     {% block leftside %}
@@ -19,7 +19,7 @@
     {% end %}
     {% block content %}
       <div id="post-2" class="post">
-        <h2 class="title"> <a href="#">集群</a></h2>
+        <h2 class="title"> <a href="#">{{ title }}</a></h2>
         <h4 class="date">{{ date }}</h4>
         <div class="entry">
         {% raw essay %}

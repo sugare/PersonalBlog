@@ -5,13 +5,13 @@
 
 
 CREATE DATABASE blog DEFAULT CHARACTER SET utf8;
-USE blog;
+USE BLOG;
 CREATE TABLE blog(
-`id` int not null primary key,
-`title` varchar(100) not null,
-`date` DATE not null,
+`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`title` VARCHAR(100) NOT NULL,
+`date` DATE NOT NULL,
 `essay` MEDIUMTEXT,
-`view` int not null default 0
+`view` INT NOT NULL DEFAULT 0
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

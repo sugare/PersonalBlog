@@ -2,7 +2,7 @@
     {% block menu %}
         <li><a href="/">Home</a></li>
         <li><a class="current" href="/archives">archives</a></li>
-        <li><a href="/about">About Us</a></li>
+        <li><a href="/about">About</a></li>
     {% end %}
 
     {% block leftside %}
@@ -13,10 +13,10 @@
         </ul>
     {% end %}
     {% block content %}
-        {% for i in abc %}
+        {% for i in archives %}
           <div id="post-1" class="post" style="margin: 15px auto;">
-            <h2 class="title"> <a href="#">{{ abc[i][0] }}</a></h2>
-            <h4 class="date">{{ abc[i][1] }}</h4>
+            <h2 class="title"> <a href="#">{{ i['title'] }}</a></h2>
+            <h4 class="date">{{ i['date'] }}</h4>
           </div>
         {% end %}
     {% end %}
