@@ -18,8 +18,6 @@ import fetchcatalog
 from concurrent.futures import ThreadPoolExecutor
 '''
 db = MySQLdb.connect('localhost','root','123456','blog', charset="utf8")
-
-
 cursor = db.cursor()
 sql = """select * from blog;"""
 cursor.execute(sql)
@@ -39,6 +37,7 @@ define("mysql_database", default="blog", help="dang database name")
 define("mysql_user", default="root", help="dang database user")
 define("mysql_password", default="123456", help="dang database password")
 
+
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
@@ -46,6 +45,7 @@ class Application(tornado.web.Application):
             (r'/archives/?(.*)', ArchivesHandler),
             (r'/about/?', AboutHandler),
             (r'/edit/?', EditHandler),
+            (r'/p/?(.*)',EssayHandler,)
         ]
         settings = dict(
             static_path=os.path.join(os.path.dirname(__file__), 'static'),
@@ -60,6 +60,7 @@ class Application(tornado.web.Application):
         self.db = torndb.Connection(
             host=options.mysql_host, database=options.mysql_database,
             user=options.mysql_user, password=options.mysql_password,charset="utf8")
+
 
 class BaseHandler(tornado.web.RequestHandler):
     executor = ThreadPoolExecutor(2)
@@ -90,9 +91,43 @@ class HomeHandler(BaseHandler):
 
 class ArchivesHandler(BaseHandler):
     def get(self, page=''):
+        sql = 'SELECT count(*) FROM blog;'
+        results = self.query(sql)
+        lastPage=1
+        currentPage=1
+        nextPage=1
+        perPage = 8
+        totalItem = int(results[0].values()[0])
+        totalPage = totalItem/perPage if totalItem % perPage == 0 else totalItem/perPage + 1
+
+
         if page:
             try:
-                sql = 'SELECT * FROM blog where id=%d;' % int(page)
+                currentPage = int(page.encode('utf-8'))
+                nextPage = currentPage + 1 if currentPage + 1 == totalPage else totalPage
+                lastPage = currentPage - 1 if currentPage - 1 != 0 else 1
+                #sql = 'SELECT * FROM blog where id=%d;' % int(page)
+                sql = 'SELECT * FROM blog LIMIT %d, %d;' %(currentPage*perPage - perPage,currentPage*perPage)
+                if sql:
+                    #results = yield self.executor.submit(self.query, sql)
+                    results = self.query(sql)
+
+                    self.render('archives.html', archives=results, lastPage=lastPage, currentPage=currentPage, nextPage=nextPage)
+            except:
+                self.write_error(404)
+        else:
+            sql = 'SELECT * FROM blog LIMIT %d, %d;' %(currentPage*perPage - perPage,currentPage*perPage)
+            nextPage += currentPage
+            if sql:
+                results = self.query(sql)
+            self.render('archives.html', archives=results, lastPage=lastPage, currentPage=currentPage,nextPage=nextPage)
+
+
+class EssayHandler(BaseHandler):
+    def get(self, Eid=''):
+        if Eid:
+            try:
+                sql = 'SELECT * FROM blog where id=%d;' % int(Eid)
                 if sql:
                     #results = yield self.executor.submit(self.query, sql)
                     results = self.query(sql)
@@ -101,10 +136,8 @@ class ArchivesHandler(BaseHandler):
             except:
                 self.write_error(404)
         else:
-            sql = 'SELECT * FROM blog;'
-            if sql:
-                results = self.query(sql)
-            self.render('archives.html', archives=results)
+            self.write_error(404)
+
 
 class EditHandler(BaseHandler):
     def get(self):
