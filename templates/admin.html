@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+    {% block menu %}
+        <li><a href="/">Home</a></li>
+        <li><a class="current" href="/archives">archives</a></li>
+        <li><a href="/about">About</a></li>
+    {% end %}
+
+    {% block leftside %}
+        <ul style="margin-top: 40px;margin-left: 40px;">
+        <li id="categories">
+          <h2>Categories</h2>
+          <ul style="margin-left: 7px;padding-top: 10px;">
+          </ul>
+        </li>
+        <!-- end #categories -->
+        <li id="archives">
+          <h2>Archives</h2>
+          <ul style="margin-left: 7px;padding-top: 10px">
+          </ul>
+        </li>
+        <!-- end #archives -->
+        <li id="blogroll">
+          <h2>Blogroll</h2>
+          <ul>
+          </ul>
+        </li>
+        <!-- end #blogroll -->
+      </ul>
+    {% end %}
+
+    {% block content %}
+        {% for i in results %}
+          <div id="post-1" class="post" style="margin: 15px auto;border: dotted">
+            <h2 class="title" style="border: dotted;float: left"> <a href="/admin/{{ i['id'] }}">{{ i['title'] }}</a></h2>
+              <h4 class="del" style="border: dotted;margin-top: 10px;"><a href="/del/{{ i['id'] }}">删除该贴</a></h4>
+          </div>
+        {% end %}
+    {% end %}

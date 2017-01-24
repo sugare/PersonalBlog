@@ -34,3 +34,4 @@ mysql> SELECT date, count(*) FROM blog group by date;
 +------------+----------+
 6 rows in set, 4 warnings (0.00 sec)
 
+UPDATE blog SET title='NUM', essay='fuck you' WHERE id=4;

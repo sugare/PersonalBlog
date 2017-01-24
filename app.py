@@ -44,10 +44,12 @@ class Application(tornado.web.Application):
             (r'/?', HomeHandler),
             (r'/archives/?(.*)', ArchivesHandler),
             (r'/about/?', AboutHandler),
-            (r'/edit/?', EditHandler),
+            (r'/submit/?', SubmitHandler),
             (r'/p/?(.*)',EssayHandler),
             (r'/category/?(.*)', CategoryHandler),
-            (r'/date/?(.*)', DateHandler)
+            (r'/date/?(.*)', DateHandler),
+            (r'/admin/?(.*)', AdminHandler),
+            (r'/del/?(.*)', DelHandler),
         ]
         settings = dict(
             static_path=os.path.join(os.path.dirname(__file__), 'static'),
@@ -90,7 +92,6 @@ class HomeHandler(BaseHandler):
     def get(self):
         self.render('home.html')
 
-
 class ArchivesHandler(BaseHandler):
     def get(self, page=''):
         sql = 'SELECT count(*) FROM blog;'
@@ -127,7 +128,6 @@ class ArchivesHandler(BaseHandler):
             cad = self.query(sql)
             self.render('archives.html', identies=identies,date=date, archives=cad, lastPage=lastPage, currentPage=currentPage,nextPage=nextPage)
 
-
 class CategoryHandler(BaseHandler):
     def get(self, cate=''):
         sql1 = 'select identity, COUNT(*) from blog GROUP BY identity;'
@@ -139,7 +139,6 @@ class CategoryHandler(BaseHandler):
                 results = self.query(sql)
                 print results
                 self.render('category.html',results=results, identies=identies, Date=Date)
-
 
 class DateHandler(BaseHandler):
     def get(self, date=''):
@@ -153,7 +152,6 @@ class DateHandler(BaseHandler):
             sql = "SELECT * FROM blog WHERE date='%s';" % date
             results = self.query(sql)
             self.render('date.html',results=results, Date=Date, identies=identies)
-
 
 class EssayHandler(BaseHandler):
     def get(self, Eid=''):
@@ -170,10 +168,9 @@ class EssayHandler(BaseHandler):
         else:
             self.write_error(404)
 
-
-class EditHandler(BaseHandler):
+class SubmitHandler(BaseHandler):
     def get(self):
-        self.render('edit.html')
+        self.render('submit.html')
     def post(self, *args, **kwargs):
         '''
         self.get_argument('title') 取出的内容均为unicode,
@@ -187,10 +184,40 @@ class EditHandler(BaseHandler):
         self.exesql(sql)
         self.write('OK')
 
-
 class AboutHandler(BaseHandler):
     def get(self):
         self.render('about.html')
+
+class AdminHandler(BaseHandler):
+    def get(self, Eid=''):
+        if Eid:
+            sql = 'SELECT * FROM blog WHERE id=%d;' % int(Eid)
+            results = self.query(sql)
+
+            self.render('edit.html', results=results)
+        else:
+            sql = 'SELECT * FROM blog;'
+            results = self.query(sql)
+            self.render('admin.html', results=results)
+    def post(self, *args, **kwargs):
+        '''
+        self.get_argument('title') 取出的内容均为unicode,
+        MySQLdb.escape_string转义时必须先encode为utf-8
+
+        '''
+        Title =  self.get_argument('title')
+        Date =  self.get_argument('date')
+        Essay =   self.get_argument('essay')
+        Eid = self.get_argument('ID')
+        sql = """UPDATE blog SET title='%s', date='%s', essay='%s' WHERE id=%d;""" % (MySQLdb.escape_string(Title.encode('utf-8')),MySQLdb.escape_string(Date.encode('utf-8')),MySQLdb.escape_string(Essay.encode('utf-8')),int(Eid))
+        self.exesql(sql)
+        self.write('OK')
+
+class DelHandler(BaseHandler):
+    def get(self, Eid):
+        sql = 'DELETE FROM blog WHERE id=%d' % int(Eid)
+        self.exesql(sql)
+        self.redirect('/admin')
 
 
 def main():

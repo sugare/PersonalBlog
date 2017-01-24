@@ -218,6 +218,11 @@ a:active {color: #FFD133;}
 	text-align: right;
 }
 
+.post .del {
+	padding-right: 0;
+	text-align: right;
+}
+
 .post .entry {
 	padding: 0px 15px 10px 15px;
 	line-height: 1.8em;
@@ -241,7 +246,7 @@ a:active {color: #FFD133;}
 #sidebar {
 	float: left;
 	width: 250px;
-	margin: 0px auto;
+	margin: 0 auto;
 }
 
 #sidebar ul {

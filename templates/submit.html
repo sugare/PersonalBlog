@@ -58,22 +58,22 @@ function submit1(frm){
 }
 
 </script>
-    <form action='/admin' method='post'>
+    <form action='/submit' method='post' name="frm" onsubmit="return submit1(this);">
       <div id="post-1" class="post">
               <h2 style="float: left;"><label>标题:</label></h2>&nbsp;
-              <input class="cssInput" type='text' name='title' value="{{ results[0]['title'] }}" style="color:#000000;"/>
-              <input type='hidden' name='ID' value="{{ results[0]['id'] }}" />
+              <input class="cssInput" type='text' name='title' placeholder='请输入标题' style="color:#000000;"/>
+
       </div>
 
       <div id="post-2" class="post">
               <h2 style="float: left;"><label>日期:</label></h2>&nbsp;
-              <input class="cssInput" type='text' name='date' value="{{ results[0]['date'] }}" style="color:#000000"/>
+              <input class="cssInput" type='text' name='date' placeholder='请输入日期' style="color:#000000"/>
 
       </div>
 
       <div id="post-3" class="post">
           <h2 style="float: left;"><label>博文:</label></h2>
-          <textarea style="-webkit-border-radius: 3px; background-color: #7A6F6F; outline: none; margin-left: 6px;" placeholder='请输入文章' name="essay">{{ results[0]['essay'] }}</textarea>
+          <textarea style="-webkit-border-radius: 3px; background-color: #7A6F6F; outline: none; margin-left: 6px;" placeholder='请输入文章' name="essay"></textarea>
           <br/>
           <input type="submit" value="提交" style="background: #000; color: #FFD133;"/>
       </div>
