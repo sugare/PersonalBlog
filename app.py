@@ -45,7 +45,9 @@ class Application(tornado.web.Application):
             (r'/archives/?(.*)', ArchivesHandler),
             (r'/about/?', AboutHandler),
             (r'/edit/?', EditHandler),
-            (r'/p/?(.*)',EssayHandler,)
+            (r'/p/?(.*)',EssayHandler),
+            (r'/category/?(.*)', CategoryHandler),
+            (r'/date/?(.*)', DateHandler)
         ]
         settings = dict(
             static_path=os.path.join(os.path.dirname(__file__), 'static'),
@@ -92,6 +94,8 @@ class HomeHandler(BaseHandler):
 class ArchivesHandler(BaseHandler):
     def get(self, page=''):
         sql = 'SELECT count(*) FROM blog;'
+        sql1 = 'select identity, count(*) from blog group by identity;'
+        sql2 = 'SELECT date, count(*) FROM blog group by date;'
         results = self.query(sql)
         lastPage=1
         currentPage=1
@@ -99,6 +103,8 @@ class ArchivesHandler(BaseHandler):
         perPage = 8
         totalItem = int(results[0].values()[0])
         totalPage = totalItem/perPage if totalItem % perPage == 0 else totalItem/perPage + 1
+        identies = self.query(sql1)
+        date = self.query(sql2)
 
 
         if page:
@@ -106,13 +112,13 @@ class ArchivesHandler(BaseHandler):
                 currentPage = int(page.encode('utf-8'))
                 nextPage = currentPage + 1 if currentPage + 1 == totalPage else totalPage
                 lastPage = currentPage - 1 if currentPage - 1 != 0 else 1
-                #sql = 'SELECT * FROM blog where id=%d;' % int(page)
                 sql = 'SELECT * FROM blog LIMIT %d, %d;' %(currentPage*perPage - perPage,currentPage*perPage)
+
                 if sql:
                     #results = yield self.executor.submit(self.query, sql)
                     results = self.query(sql)
 
-                    self.render('archives.html', archives=results, lastPage=lastPage, currentPage=currentPage, nextPage=nextPage)
+                    self.render('archives.html', identies=identies, archives=results, lastPage=lastPage, currentPage=currentPage, nextPage=nextPage)
             except:
                 self.write_error(404)
         else:
@@ -120,7 +126,34 @@ class ArchivesHandler(BaseHandler):
             nextPage += currentPage
             if sql:
                 results = self.query(sql)
-            self.render('archives.html', archives=results, lastPage=lastPage, currentPage=currentPage,nextPage=nextPage)
+            self.render('archives.html', identies=identies,date=date, archives=results, lastPage=lastPage, currentPage=currentPage,nextPage=nextPage)
+
+
+class CategoryHandler(BaseHandler):
+    def get(self, cate=''):
+        sql1 = 'select identity, COUNT(*) from blog GROUP BY identity;'
+        identies = self.query(sql1)
+        sql2 = 'SELECT date, COUNT(*) from blog GROUP BY date;'
+        Date = self.query(sql2)
+        if cate:
+                sql = "SELECT * FROM blog WHERE identity='%s';" % cate
+                results = self.query(sql)
+                print results
+                self.render('category.html',results=results, identies=identies, Date=Date)
+
+
+class DateHandler(BaseHandler):
+    def get(self, date=''):
+        sql1 = 'SELECT date, COUNT(*) from blog GROUP BY date;'
+        Date = self.query(sql1)
+        sql2 = 'select identity, COUNT(*) from blog GROUP BY identity;'
+        identies = self.query(sql2)
+        print Date
+        if date:
+            print date,type(date)
+            sql = "SELECT * FROM blog WHERE date='%s';" % date
+            results = self.query(sql)
+            self.render('date.html',results=results, Date=Date, identies=identies)
 
 
 class EssayHandler(BaseHandler):

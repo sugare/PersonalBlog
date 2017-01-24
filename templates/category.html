@@ -11,7 +11,7 @@
           <h2>Categories</h2>
           <ul style="margin-left: 7px;padding-top: 10px;">
               {% for i in identies %}
-                    <li><a href="/category/{{ i['identity'] }}">{{ i['identity'] }}&nbsp;({{ i['count(*)'] }})</a></li>
+                    <li><a href="/category/{{ i['identity'] }}">{{ i['identity'] }}&nbsp;({{ i['COUNT(*)'] }})</a></li>
               {% end %}
           </ul>
         </li>
@@ -22,10 +22,9 @@
             #news { width:100px; height:100px; overflow:auto;}
             </style>
           <ul style="margin-left: 7px;padding-top: 10px">
-              {% for i in date %}
-                    <li><a href="/date/{{ i['date'] }}">{{ i['date'] }}&nbsp;({{ i['count(*)'] }})</a></li>
+              {% for i in Date %}
+                    <li><a href="/date/{{ i['date'] }}">{{ i['date'] }}&nbsp;({{ i['COUNT(*)'] }})</a></li>
               {% end %}
-
           </ul>
         </li>
         <!-- end #archives -->
@@ -43,17 +42,11 @@
       </ul>
     {% end %}
     {% block content %}
-        {% for i in archives %}
+        {% for i in results %}
           <div id="post-1" class="post" style="margin: 15px auto;">
             <h2 class="title"> <a href="/p/{{ i['id'] }}">{{ i['title'] }}</a></h2>
             <h4 class="date">{{ i['date'] }}</h4>
           </div>
         {% end %}
-        <div style="margin-left:200px;">
-            <ul>
-            <li style="float: left;list-style-type:none;margin: 0 15px;"><h3><a href="/archives/{{ lastPage }}">上一页</a></h3></li>
-            <li style="float: left;list-style-type:none;margin: 3px 10px 0 10px;"><h3><a name="{{ lastPage }}">{{ currentPage }}</a></h3></li>
-            <li style="float: left;list-style-type:none;margin: 0 15px;"><h3><a href="/archives/{{ nextPage }}">下一页</a></h3></li>
-            </ul>
-        </div>
+
     {% end %}
