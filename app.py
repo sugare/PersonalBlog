@@ -96,37 +96,36 @@ class ArchivesHandler(BaseHandler):
         sql = 'SELECT count(*) FROM blog;'
         sql1 = 'select identity, count(*) from blog group by identity;'
         sql2 = 'SELECT date, count(*) FROM blog group by date;'
+
         results = self.query(sql)
-        lastPage=1
-        currentPage=1
-        nextPage=1
-        perPage = 8
-        totalItem = int(results[0].values()[0])
-        totalPage = totalItem/perPage if totalItem % perPage == 0 else totalItem/perPage + 1
-        identies = self.query(sql1)
-        date = self.query(sql2)
+
+        lastPage=1      # 上一页
+        currentPage=1       # 当前页面
+        nextPage=1      # 下一页
+        perPage = 8     # 每页多少行
+        totalItem = int(results[0].values()[0]) # 总共有几条
+        totalPage = totalItem/perPage if totalItem % perPage == 0 else totalItem/perPage + 1    # 总共分几页面
+        identies = self.query(sql1)     # 查看分类及分类对应总数
+        date = self.query(sql2)     # 查看日期及日期对应总数
 
 
         if page:
             try:
                 currentPage = int(page.encode('utf-8'))
-                nextPage = currentPage + 1 if currentPage + 1 == totalPage else totalPage
-                lastPage = currentPage - 1 if currentPage - 1 != 0 else 1
+                nextPage = currentPage + 1 if currentPage + 1 <= totalPage else totalPage
+                lastPage = currentPage - 1 if currentPage - 1 > 0 else 1
                 sql = 'SELECT * FROM blog LIMIT %d, %d;' %(currentPage*perPage - perPage,currentPage*perPage)
 
-                if sql:
-                    #results = yield self.executor.submit(self.query, sql)
-                    results = self.query(sql)
-
-                    self.render('archives.html', identies=identies, archives=results, lastPage=lastPage, currentPage=currentPage, nextPage=nextPage)
+                a = self.query(sql)
+                self.render('archives.html', date=date,identies=identies, archives=a, lastPage=lastPage, currentPage=currentPage, nextPage=nextPage)
             except:
                 self.write_error(404)
         else:
             sql = 'SELECT * FROM blog LIMIT %d, %d;' %(currentPage*perPage - perPage,currentPage*perPage)
-            nextPage += currentPage
-            if sql:
-                results = self.query(sql)
-            self.render('archives.html', identies=identies,date=date, archives=results, lastPage=lastPage, currentPage=currentPage,nextPage=nextPage)
+            nextPage = currentPage + 1 if currentPage + 1 <= totalPage else totalPage
+            lastPage = currentPage - 1 if currentPage - 1 > 0 else 1
+            cad = self.query(sql)
+            self.render('archives.html', identies=identies,date=date, archives=cad, lastPage=lastPage, currentPage=currentPage,nextPage=nextPage)
 
 
 class CategoryHandler(BaseHandler):
