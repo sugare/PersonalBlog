@@ -1,12 +1,10 @@
 {% extends "base.html" %}
     {% block menu %}
         <li><a class="current" href="/">Home</a></li>
-        <li><a href="/archives">archives</a></li>
+        <li><a href="/archives">Archives</a></li>
         <li><a href="/about">About</a></li>
     {% end %}
     {% block leftside %}
-
-
         <ul>
         <li id="categories">
           <h2></h2>
@@ -40,7 +38,7 @@
         <!-- end #categories -->
         <li id="archives">
           <h2>Archives</h2>
-          <ul>
+          <ul style="margin-left: 7px;padding-top: 10px;">
             <li><a href="#">April 2007</a></li>
             <li><a href="#">March 2007</a></li>
             <li><a href="#">February 2007</a></li>
@@ -51,7 +49,7 @@
         <!-- end #archives -->
         <li id="blogroll">
           <h2>Blogroll</h2>
-          <ul>
+          <ul style="margin-left: 7px;padding-top: 10px;">
             <li><a href="#">Jack Hogan</a></li>
             <li><a href="#">Jill Reagan</a></li>
             <li><a href="#">Humpty Smith</a></li>
@@ -62,7 +60,7 @@
         <!-- end #blogroll -->
         <li id="meta">
           <h2>Meta</h2>
-          <ul>
+          <ul style="margin-left: 7px;padding-top: 10px;">
             <li><a href="#">Site Admin</a></li>
             <li><a href="#">Logout</a></li>
             <li><a href="#">Valid <abbr title="eXtensible HyperText Markup Language">XHTML</abbr></a></li>
@@ -73,75 +71,66 @@
     {% end %}
 
     {% block content %}
+    <style>
+    #ticker { width:650px; height:500px; border:1px solid #aaaaaa; overflow:auto; }
+    #ticker dt { font:normal 14px Georgia; padding:0 10px 5px 10px; background-color:#e5e5e5; padding-top:10px; border:1px solid #ffffff; border-bottom:none; border-right:none; position:relative; }
+    #ticker dd { margin-left:0; font:normal 11px Verdana; padding:0 10px 10px 10px; border-bottom:1px solid #aaaaaa; background-color:#e5e5e5; border-left:1px solid #ffffff; position:relative; }
+    #ticker dd.last { border-bottom:1px solid #ffffff; }
+    #ticker div { margin-top:0; }
+    </style>
+    <script type="text/javascript" src="jquery-2.2.3.min.js"></script>
+    <script type="text/javascript">
+	  $(function() {
+		var ticker = $("#ticker");
+		ticker.children().filter("dt").each(function() {
+		  var dt = $(this),
+		    container = $("<div>");
+		  dt.next().appendTo(container);
+		  dt.prependTo(container);
+		  container.appendTo(ticker);
+		});
+		ticker.css("overflow", "hidden");
+		function animator(currentItem) {
+		  var distance = currentItem.height();
+			duration = (distance + parseInt(currentItem.css("marginTop"))) / 0.005;
+		  currentItem.animate({ marginTop: -distance }, duration, "linear", function() {
+			currentItem.appendTo(currentItem.parent()).css("marginTop", 0);
+			animator(currentItem.parent().children(":first"));
+		  });
+		};
+		animator(ticker.children(":first"));
+		ticker.mouseenter(function() {
+		  ticker.children().stop();
+		});
+		ticker.mouseleave(function() {
+		  animator(ticker.children(":first"));
+		});
+	  });
+    </script>
+
       <div id="post-1" class="post">
         <h2 class="title"> <a href="#">Introduction to Linux Blog</a></h2>
         <h4 class="date">March 26, 2007</h4>
-        <div class="entry">
-          <p><strong>Linux Blog</strong> is a free template from Sumanasa.com released under a <a href="#">Creative Commons License</a>. This is a simple linux-themed template with a header, a horizontal menu, content and sidebar columns. We have tested this template in Firefox 1.5, Opera 8.5, IE 6.0 and IE 7.0 and it works fine in all these browsers. This is a valid XHTML and CSS and it is also very easy to customize.</p>
-          <p>You can use this template with no restrictions; just leave the "Design by" information as it is at the bottom. Good luck to your website.</p>
+        <div id="tickerContainer">
+          <dl id="ticker">
+                <dt class="heading">This is a news title!</dt><dd class="text">This is a snippet of the news. It could be the whole news item or it could link to another page containing...<br>
+              This is a snippet of the news. It could be the whole news item or it could link to another page containing...<br>
+              This is a snippet of the news. It could be the whole news item or it could link to another page containing...<br>
+              This is a snippet of the news. It could be the whole news item or it could link to another page containing...<br>
+              This is a snippet of the news. It could be the whole news item or it could link to another page containing...<br>
+              This is a snippet of the news. It could be the whole news item or it could link to another page containing...<br>
+               This is a snippet of the news. It could be the whole news item or it could link to another page containing...<br>
+              This is a snippet of the news. It could be the whole news item or it could link to another page containing...<br>
+                            This is a snippet of the news. It could be the whole news item or it could link to another page containing...<br>
+              This is a snippet of the news. It could be the whole news item or it could link to another page containing...<br>
+                            This is a snippet of the news. It could be the whole news item or it could link to another page containing...<br>
+              This is a snippet of the news. It could be the whole news item or it could link to another page containing...<br>
+              This is a snippet of the news. It could be the whole news item or it could link to another page containing...</dd>
+
+          </dl>
         </div>
-        <p class="meta">Posted in <a href="#">Category #1</a> | <a href="#">Edit</a> | <a href="#">1 Comment &raquo;</a></p>
       </div>
-      <!-- end #post-1 -->
-      <div id="post-2" class="post">
-        <h2 class="title"> <a href="#">Sample Tags</a></h2>
-        <h4 class="date">January 31, 2007</h4>
-        <div class="entry">
-          <p>A one-sentence paragraph followed by a blockquoted paragraph.</p>
-          <blockquote>
-            <p>&ldquo;A collection of nursery rhymes and songs to share and enjoy, with pictures to print off and color in.&rdquo;</p>
-          </blockquote>
-          <h3>Heading Level Three</h3>
-          <ul>
-            <li>Jack and Jill went up the hill</li>
-            <li>To fetch a pail of water</li>
-            <li>Jack fell down, and broke his crown</li>
-            <li>And Jill came tumbling after.</li>
-          </ul>
-          <h3>Ordered List</h3>
-          <ol>
-            <li>Mary had a little lamb</li>
-            <li>Its fleece was white as snow</li>
-            <li>And everywhere that Mary went</li>
-            <li>The lamb was sure to go.</li>
-          </ol>
-        </div>
-        <p class="meta">Posted in <a href="#">Category #1</a> | <a href="#">Edit</a> | <a href="#">1 Comment &raquo;</a></p>
-      </div>
+
       <!-- end #post-2 -->
-      <div id="post-3" class="post">
-        <h2 class="title"> <a href="#">Introduction to Linux Blog</a></h2>
-        <h4 class="date">March 26, 2007</h4>
-        <div class="entry">
-          <p><strong>Linux Blog</strong> is a free template from Sumanasa.com released under a <a href="#">Creative Commons License</a>. This is a simple linux-themed template with a header, a horizontal menu, content and sidebar columns. We have tested this template in Firefox 1.5, Opera 8.5, IE 6.0 and IE 7.0 and it works fine in all these browsers. This is a valid XHTML and CSS and it is also very easy to customize.</p>
-          <p>You can use this template with no restrictions; just leave the "Design by" information as it is at the bottom. Good luck to your website.</p>
-        </div>
-        <p class="meta">Posted in <a href="#">Category #1</a> | <a href="#">Edit</a> | <a href="#">1 Comment &raquo;</a></p>
-      </div>
-      <!-- end #post-1 -->
-      <div id="post-4" class="post">
-        <h2 class="title"> <a href="#">Sample Tags</a></h2>
-        <h4 class="date">January 31, 2007</h4>
-        <div class="entry">
-          <p>A one-sentence paragraph followed by a blockquoted paragraph.</p>
-          <blockquote>
-            <p>&ldquo;A collection of nursery rhymes and songs to share and enjoy, with pictures to print off and color in.&rdquo;</p>
-          </blockquote>
-          <h3>Heading Level Three</h3>
-          <ul>
-            <li>Jack and Jill went up the hill</li>
-            <li>To fetch a pail of water</li>
-            <li>Jack fell down, and broke his crown</li>
-            <li>And Jill came tumbling after.</li>
-          </ul>
-          <h3>Ordered List</h3>
-          <ol>
-            <li>Mary had a little lamb</li>
-            <li>Its fleece was white as snow</li>
-            <li>And everywhere that Mary went</li>
-            <li>The lamb was sure to go.</li>
-          </ol>
-        </div>
-        <p class="meta">Posted in <a href="#">Category #1</a> | <a href="#">Edit</a> | <a href="#">1 Comment &raquo;</a></p>
-      </div>
+
     {% end %}

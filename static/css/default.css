@@ -5,7 +5,7 @@ margin: 0; padding: 0;
 
 /* SET BASE FONT ATTRUBUTES */
 html, body {
-font: Georgia, "Times New Roman", Times, serif 14px/1.5em;
+/*font: Georgia, "Times New Roman", Times, serif 14px/1.5em;*/
 color: #000;
 }
 
@@ -139,7 +139,7 @@ a:active {color: #FFD133;}
 	background: #000000 url(/static/images/menubg.gif) no-repeat;
 	height: 50px;
 	width: 950px;
-	margin: 0px auto;
+	margin: 0 auto;
 }
 
 #menu ul
@@ -162,7 +162,7 @@ a:active {color: #FFD133;}
 	font-weight: bold;
 	border-bottom: 1px dotted #000000;
 	text-decoration: none;
-	text-transform: lowercase;
+	text-transform: capitalize;
 	font-size: 1.5em;
 }
 
