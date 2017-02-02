@@ -46,8 +46,10 @@
     [;outline:1px solid #78BAED;/*chrome*/
 }
 
+
 </style>
 <script>
+//表单为空不能提交
 function submit1(frm){
     if (document.frm.title.value=="" || document.frm.date.value=="") {
         alert("Please input the space");
@@ -55,8 +57,21 @@ function submit1(frm){
         return false;
         }
     return true;
-}
+};
 
+//显示当前时间
+ $(function(){
+  function showDate(){
+   var mydate = new Date();
+   var str = "" + mydate.getFullYear() + "-";
+   str += (mydate.getMonth()+1) + "-";
+   str += mydate.getDate();
+   return str;
+  }
+  $("input[type='button']").click(function(){
+   $("#date").val(showDate());
+  });
+ });
 </script>
     <form action='/submit' method='post' name="frm" onsubmit="return submit1(this);">
       <div id="post-1" class="post">
@@ -67,8 +82,8 @@ function submit1(frm){
 
       <div id="post-2" class="post">
               <h2 style="float: left;"><label>日期:</label></h2>&nbsp;
-              <input class="cssInput" type='text' name='date' placeholder='请输入日期' style="color:#000000"/>
-
+              <input id="date" class="cssInput" type='text' name='date' placeholder='请输入日期' style="color:#000000"/>
+              <input type="button" value="看看现在的时间" style="background-color: #FFD133;"/>
       </div>
 
       <div id="post-3" class="post">
