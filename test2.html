@@ -18,17 +18,32 @@
 <script type="text/javascript">
     $(function () {
         $('#btn').click(function () {
-            $.ajax({
+            var jqXHR = $.ajax({
                 type:'POST',
                 url:'http://127.0.0.1:8880/ajax',
-                cache: false,
-                async: true,
                 dataType:'jsonp',
                 jsonpCallback:"callback",
+                /*
                 success: function(data, statusText, xmlHttpRequest){
                     console.log(data['a']);
                     $('#box p').html(data['a'])
+                },
+
+                error:function () {
+                    alert('fuck')
+                },
+                complete:function () {
+                    alert('complete')
                 }
+                */
+            })
+
+            jqXHR.success(function () {
+                alert('success')
+            }).error(function () {
+                alert('error')
+            }).complete(function () {
+                alert('complete')
             })
             //$("#box p").html('hello world')
         })

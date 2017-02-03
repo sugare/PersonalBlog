@@ -224,6 +224,7 @@ class AjaxHandler(BaseHandler):
     def get(self, *args, **kwargs):
         data = {'a':1,'b':2,'c':3}
         self.write('callback' + '(' + str(data) + ')')
+        #self.write('(' + str(data) + ')')
 
 def main():
     tornado.options.parse_command_line()
