@@ -50,6 +50,7 @@ class Application(tornado.web.Application):
             (r'/date/?(.*)', DateHandler),
             (r'/admin/?(.*)', AdminHandler),
             (r'/del/?(.*)', DelHandler),
+            (r'/ajax/?', AjaxHandler),
         ]
         settings = dict(
             static_path=os.path.join(os.path.dirname(__file__), 'static'),
@@ -219,6 +220,10 @@ class DelHandler(BaseHandler):
         self.exesql(sql)
         self.redirect('/admin')
 
+class AjaxHandler(BaseHandler):
+    def get(self, *args, **kwargs):
+        data = {'a':1,'b':2,'3':3}
+        self.write('callback' + str((data)))
 
 def main():
     tornado.options.parse_command_line()

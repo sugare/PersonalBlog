@@ -1,52 +1,52 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <script>
-    $(function() {
-  $(".heart").on("click", function() {
-    $(this).toggleClass("is-active");
-  });
-});
-</script>
-<style>
-
-.heart {
-  width: 100px;
-  height: 100px;
-  background: url("https://cssanimation.rocks/images/posts/steps/heart.png") no-repeat;
-  background-position: 0 0;
-  cursor: pointer;
-  -webkit-transition: background-position 1s steps(28);
-  transition: background-position 1s steps(28);
-  -webkit-transition-duration: 0s;
-          transition-duration: 0s;
-}
-.heart.is-active {
-  -webkit-transition-duration: 1s;
-          transition-duration: 1s;
-  background-position: -2800px 0;
-}
-
-body {
-  background: -webkit-linear-gradient(315deg, #121721 0%, #000000 100%) fixed;
-  background: linear-gradient(135deg, #121721 0%, #000000 100%) fixed;
-  color: #FFF;
-  font: 300 16px/1.5 "Open Sans", sans-serif;
-}
-
-.stage {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-}
-</style>
-
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.3.min.js"></script>
 </head>
 <body>
-<div class="stage">
-  <div class="heart"></div>
+
+
+<div>
+        <input type="button" id="btn" value="ajax">
 </div>
+<div id="box">
+<p></p>
+</div>
+
+		<script type="text/javascript">
+			$(function(){
+			    $('#btn').click(function () {
+                    $("p").html("Hello <b>world</b>!");
+                }
+                /*
+				$('#btn').click(function(){
+					AjaxRequestRemote();
+				});
+				function AjaxRequestRemote(){
+					$.ajax({
+						type:'POST',
+						url:'http://localhost:8888/ajax',
+						cache: false,
+                		async: true,
+                		dataType:'jsonp',
+                		jsonpCallback:"callback",
+                		success:function(data){
+                			$("p").html("Hello <b>world</b>!");
+                            //$('.container').append(data.name);
+                            //$('.container').append(data.age);
+                		}
+					});
+				}
+
+				function oldboy(arg){
+					return arg;
+				}
+				*/
+			});
+</script>
+
 
 
 </body>
