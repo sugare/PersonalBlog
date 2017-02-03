@@ -15,36 +15,24 @@
 <p></p>
 </div>
 
-		<script type="text/javascript">
-			$(function(){
-			    $('#btn').click(function () {
-                    $("p").html("Hello <b>world</b>!");
+<script type="text/javascript">
+    $(function () {
+        $('#btn').click(function () {
+            $.ajax({
+                type:'POST',
+                url:'http://127.0.0.1:8880/ajax',
+                cache: false,
+                async: true,
+                dataType:'jsonp',
+                jsonpCallback:"callback",
+                success: function(data, statusText, xmlHttpRequest){
+                    console.log(data['a']);
+                    $('#box p').html(data['a'])
                 }
-                /*
-				$('#btn').click(function(){
-					AjaxRequestRemote();
-				});
-				function AjaxRequestRemote(){
-					$.ajax({
-						type:'POST',
-						url:'http://localhost:8888/ajax',
-						cache: false,
-                		async: true,
-                		dataType:'jsonp',
-                		jsonpCallback:"callback",
-                		success:function(data){
-                			$("p").html("Hello <b>world</b>!");
-                            //$('.container').append(data.name);
-                            //$('.container').append(data.age);
-                		}
-					});
-				}
-
-				function oldboy(arg){
-					return arg;
-				}
-				*/
-			});
+            })
+            //$("#box p").html('hello world')
+        })
+    })
 </script>
 
 

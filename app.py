@@ -31,7 +31,7 @@ print c
 '''
 
 from tornado.options import define, options
-define("port", default=8888, help="run on the given port", type=int)
+define("port", default=8880, help="run on the given port", type=int)
 define("mysql_host", default="127.0.0.1:3306", help="dang database host")
 define("mysql_database", default="blog", help="dang database name")
 define("mysql_user", default="root", help="dang database user")
@@ -222,8 +222,8 @@ class DelHandler(BaseHandler):
 
 class AjaxHandler(BaseHandler):
     def get(self, *args, **kwargs):
-        data = {'a':1,'b':2,'3':3}
-        self.write('callback' + str((data)))
+        data = {'a':1,'b':2,'c':3}
+        self.write('callback' + '(' + str(data) + ')')
 
 def main():
     tornado.options.parse_command_line()
