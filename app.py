@@ -50,7 +50,7 @@ class Application(tornado.web.Application):
             (r'/date/?(.*)', DateHandler),
             (r'/admin/?(.*)', AdminHandler),
             (r'/del/?(.*)', DelHandler),
-            (r'/ajax/?', AjaxHandler),
+            (r'/ajax/?(.*)', AjaxHandler),
         ]
         settings = dict(
             static_path=os.path.join(os.path.dirname(__file__), 'static'),
@@ -96,7 +96,7 @@ class HomeHandler(BaseHandler):
 class ArchivesHandler(BaseHandler):
     def get(self, page=''):
         sql = 'SELECT count(*) FROM blog;'
-        sql1 = 'select identity, count(*) from blog group by identity;'
+        sql1 = 'SELECT identity, count(*) from blog GROUP BY identity;'
         sql2 = 'SELECT date, count(*) FROM blog group by date;'
 
         results = self.query(sql)
@@ -210,7 +210,7 @@ class AdminHandler(BaseHandler):
         Date =  self.get_argument('date')
         Essay =   self.get_argument('essay')
         Eid = self.get_argument('ID')
-        sql = """UPDATE blog SET title='%s', date='%s', essay='%s' WHERE id=%d;""" % (MySQLdb.escape_string(Title.encode('utf-8')),MySQLdb.escape_string(Date.encode('utf-8')),MySQLdb.escape_string(Essay.encode('utf-8')),int(Eid))
+        sql = """UPDATE blog SET view='%d'+1, date='%s', essay='%s' WHERE id=%d;""" % (MySQLdb.escape_string(Title.encode('utf-8')),MySQLdb.escape_string(Date.encode('utf-8')),MySQLdb.escape_string(Essay.encode('utf-8')),int(Eid))
         self.exesql(sql)
         self.write('OK')
 
@@ -223,8 +223,19 @@ class DelHandler(BaseHandler):
 class AjaxHandler(BaseHandler):
     def get(self, *args, **kwargs):
         data = {'a':1,'b':2,'c':3}
-        self.write('callback' + '(' + str(data) + ')')
+        self.write(data)
         #self.write('(' + str(data) + ')')
+    def post(self, tag):
+        if tag == 'up':
+            url = self.request.headers['Referer']
+            Id = int(url.split('/')[-1])
+            sql = 'UPDATE blog SET view = view+1 WHERE id = %d;' % Id
+            self.exesql(sql)
+        else:
+            url = self.request.headers['Referer']
+            Id = int(url.split('/')[-1])
+            sql = 'UPDATE blog SET view = view-1 WHERE id = %d;' % Id
+            self.exesql(sql)
 
 def main():
     tornado.options.parse_command_line()

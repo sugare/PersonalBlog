@@ -20,9 +20,9 @@
         $('#btn').click(function () {
             var jqXHR = $.ajax({
                 type:'POST',
-                url:'http://127.0.0.1:8880/ajax',
+                url:'http://127.0.0.1:8880/ajax?callback=?',
                 dataType:'jsonp',
-                jsonpCallback:"callback",
+                //jsonpCallback:"callback",
                 /*
                 success: function(data, statusText, xmlHttpRequest){
                     console.log(data['a']);
@@ -39,7 +39,7 @@
             })
 
             jqXHR.success(function () {
-                alert('success')
+                $('#box p').html(['a']);
             }).error(function () {
                 alert('error')
             }).complete(function () {

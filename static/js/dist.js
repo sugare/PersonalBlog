@@ -308,12 +308,16 @@ var CalendarHandler = {
         var praise_txt = $("#praise-txt");
         var num=parseInt(praise_txt.text());
         if(praise_img.attr("src") == ("/static/images/yizan.png")){
+
             $(this).html("<img src='/static/images/zan.png' id='praise-img' class='animation' />");
             praise_txt.removeClass("hover");
             text_box.show().html("<em class='add-animation'>-1</em>");
             $(".add-animation").removeClass("hover");
             num -=1;
             praise_txt.text(num)
+            $.post('/ajax/down');
+            //console.log('sorry')
+
         }else{
             $(this).html("<img src='/static/images/yizan.png' id='praise-img' class='animation' />");
             praise_txt.addClass("hover");
@@ -321,6 +325,7 @@ var CalendarHandler = {
             $(".add-animation").addClass("hover");
             num +=1;
             praise_txt.text(num)
+            $.post('/ajax/up');
         }
     });
 });

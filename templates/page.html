@@ -51,11 +51,22 @@
         }
     });
 });
+
+$(function () {
+    $("#praise").click(function () {
+        $.post('/ajax',{'d':4},function (response) {
+            console.log('abc')
+            console.log(response)
+        })
+
+    })
+
+})
 */
 </script>
     <div class="praise">
         <span id="praise"><img src="/static/images/zan.png" id="praise-img" /></span>
-        <span id="praise-txt">1455</span>
+        <span id="praise-txt">{{ view }}</span>
         <span id="add-num"><em>+1</em></span>
     </div>
     {% end %}
